@@ -81,6 +81,9 @@ namespace Veiculo {
         }
 
         public void Pintar(string novaCor) {
+            if (Cor.Equals(novaCor, StringComparison.InvariantCultureIgnoreCase)) {
+                throw new Exception("O veículo já se encontra dessa cor. Tente novamente com uma nova cor.");
+            }
             Cor = novaCor;
         }
 

@@ -4,16 +4,26 @@ using static System.Console;
 namespace Veiculo {
     class Program {
 
+        // Veículo estático que será utilizado durante toda a exeucção do programa.
         public static Veiculo veiculo = null;
-        
-        static void Main(string[] args) {
 
+        /**
+         * Método que é chamado na execução da aplicação.
+         */
+        static void Main(string[] args) {
+            ExecutarMenu();
+        }
+
+        /**
+         * Método responsável por exibir e executar o menu de opções.
+         */
+        private static void ExecutarMenu() {
+            WriteLine("############## Cadastro inicial do Veículo ##############");
 
             while (veiculo == null) {
                 veiculo = CadastrarVeiculo();
             }
 
-            int opcao = 0;
             bool continuar = true;
             do {
                 Clear();
@@ -26,17 +36,10 @@ namespace Veiculo {
                 WriteLine("4 - Acelerar");
                 WriteLine("5 - Frear");
                 WriteLine("6 - Mudar a cor");
+                WriteLine("7 - Ver informações sobre o veículo");
                 WriteLine("0 - Sair");
-                var opcaoValida = false;
-                while (!opcaoValida) {
-                    try {
-                        opcao = Convert.ToInt32(ReadLine());
-                        opcaoValida = true;
-                    } catch (Exception) {
-                        WriteLine("Opção inválida!");
-                        opcaoValida = false;
-                    }
-                }
+
+                int opcao = RecuperaInteiro("");
 
                 switch (opcao) {
                     case 1:
@@ -63,6 +66,10 @@ namespace Veiculo {
                         Clear();
                         MudarACorDoVeiculo();
                         break;
+                    case 7:
+                        Clear();
+                        VerInformacoesDoVeiculo();
+                        break;
                     case 0:
                         continuar = false;
                         break;
@@ -74,30 +81,26 @@ namespace Veiculo {
             } while (continuar);
         }
 
+        /**
+         * Método responsável por cadastrar o veiculo e tratar possíveis erros.
+         */
         private static Veiculo CadastrarVeiculo() {
             Title = "Cadastro do Veículo:";
 
-            WriteLine("Digite a marca do veículo");
-            string marca = ReadLine();
+            string marca = RecuperaStringNaoVazia("Digite a marca do veículo");
 
-            WriteLine("Digite o modelo do veículo");
-            string modelo = ReadLine();
+            string modelo = RecuperaStringNaoVazia("Digite o modelo do veículo");
 
-            WriteLine("Digite a placa do veículo");
-            string placa = ReadLine();
+            string placa = RecuperaStringNaoVazia("Digite a placa do veículo");
 
-            WriteLine("Digite a cor do veículo");
-            string cor = ReadLine();
+            string cor = RecuperaStringNaoVazia("Digite a cor do veículo");
 
-            WriteLine("Digite o preço do veículo");
-            double preco = Convert.ToDouble(ReadLine());
+            double preco = RecuperaDecimal("Digite o preço do veículo");
 
-            Veiculo veiculo;
             try {
-                veiculo = new Veiculo(marca, modelo, placa, cor, preco);
+                Veiculo veiculo = new Veiculo(marca, modelo, placa, cor, preco);
                 WriteLine("Veículo cadastrado com sucesso");
-                WriteLine("Pressione qualquer tecla para voltar ao menu..");
-                ReadKey();
+                ExibirMensagemDeRetornoAoMenu();
                 return veiculo;
             } catch (Exception e) {
                 WriteLine($"Erro ao cadastrar: {e.Message}");
@@ -105,10 +108,13 @@ namespace Veiculo {
             }
         }
 
+        /**
+         * Método responsável por abastecer o veiculo e tratar possíveis erros.
+         */
         private static void AbastecerVeiculo() {
             try {
-                WriteLine("Digite quantos litros você deseja abastecer:");
-                int qtde = Convert.ToInt32(ReadLine());
+
+                int qtde = RecuperaInteiro("Digite quantos litros você deseja abastecer:");
 
                 veiculo.Abastecer(qtde);
 
@@ -117,11 +123,13 @@ namespace Veiculo {
             } catch (Exception e) {
                 WriteLine(e.Message);
             } finally {
-                WriteLine("Pressione qualquer tecla para voltar ao menu..");
-                ReadKey();
+                ExibirMensagemDeRetornoAoMenu();
             }
         }
 
+        /**
+         * Método responsável por ligar o veiculo e tratar possíveis erros.
+         */
         private static void LigarVeiculo() {
             try {
                 WriteLine("Ligando o carro..");
@@ -131,11 +139,13 @@ namespace Veiculo {
             } catch (Exception e) {
                 WriteLine(e.Message);
             } finally {
-                WriteLine("Pressione qualquer tecla para voltar ao menu..");
-                ReadKey();
+                ExibirMensagemDeRetornoAoMenu();
             }
         }
 
+        /**
+         * Método responsável por desligar o veiculo e tratar possíveis erros.
+         */
         private static void DesligarVeiculo() {
             try {
                 WriteLine("Desligando o carro..");
@@ -145,11 +155,13 @@ namespace Veiculo {
             } catch (Exception e) {
                 WriteLine(e.Message);
             } finally {
-                WriteLine("Pressione qualquer tecla para voltar ao menu..");
-                ReadKey();
+                ExibirMensagemDeRetornoAoMenu();
             }
         }
 
+        /**
+         * Método responsável por acelerar o veiculo e tratar possíveis erros.
+         */
         private static void AcelerarVeiculo() {
             try {
                 WriteLine("Acelerando o carro..");
@@ -159,11 +171,13 @@ namespace Veiculo {
             } catch (Exception e) {
                 WriteLine(e.Message);
             } finally {
-                WriteLine("Pressione qualquer tecla para voltar ao menu..");
-                ReadKey();
+                ExibirMensagemDeRetornoAoMenu();
             }
         }
 
+        /**
+         * Método responsável por frear o veiculo e tratar possíveis erros.
+         */
         private static void FrearVeiculo() {
             try {
                 WriteLine("Freando o carro..");
@@ -173,24 +187,109 @@ namespace Veiculo {
             } catch (Exception e) {
                 WriteLine(e.Message);
             } finally {
-                WriteLine("Pressione qualquer tecla para voltar ao menu..");
-                ReadKey();
+                ExibirMensagemDeRetornoAoMenu();
             }
         }
 
+        /**
+         * Método responsável pela  realiza a troca da cor do veículo e tratar possíveis erros.
+         */
         private static void MudarACorDoVeiculo() {
             try {
-                WriteLine("Digite a nova cor do carro..");
-                var novaCor = ReadLine();
+                var novaCor = RecuperaStringNaoVazia("Digite a nova cor do carro:");
                 veiculo.Pintar(novaCor);
                 WriteLine($"Cor do carro alterada para {veiculo.Cor}!");
-
             } catch (Exception e) {
                 WriteLine(e.Message);
             } finally {
-                WriteLine("Pressione qualquer tecla para voltar ao menu..");
-                ReadKey();
+                ExibirMensagemDeRetornoAoMenu();
             }
+        }
+        /**
+         * Método que imprime para o usuário as informações sobre o veículo do usuário.
+         */
+        private static void VerInformacoesDoVeiculo() {
+            if (veiculo != null) {
+                WriteLine("############## Informações sobre o seu veículo ##############");
+                WriteLine($"Marca: {veiculo.Marca}");
+                WriteLine($"Modelo: {veiculo.Modelo}");
+                WriteLine($"Placa: {veiculo.Placa}");
+                WriteLine($"Cor: {veiculo.Cor}");
+                WriteLine($"Km: {veiculo.Km}");
+                Write($"Estado:");
+                if (veiculo.IsLigado) {
+                    WriteLine("Ligado");
+                } else {
+                    WriteLine("Desligado");
+                }
+                WriteLine($"Combustível Disponível: {veiculo.LitrosCombustivel}");
+                WriteLine($"Velocidade Atual: {veiculo.Velocidade}");
+                WriteLine($"Preço do carro: {veiculo.Preco}");
+
+                ExibirMensagemDeRetornoAoMenu();
+            }
+        }
+
+        /**
+         * Método que imprime na tela a mensagem falando para o usuário clicar em qualquer tecla para voltar ao menu.
+         * Feito apenas para reaproveitamento de código.
+         */
+        private static void ExibirMensagemDeRetornoAoMenu() {
+            WriteLine("\n\nPressione qualquer tecla para voltar ao menu..");
+            ReadKey();
+        }
+
+        /**
+         * Método responsável por recuperar valores decimais no console e tratar possíveis tentativas de fornecimento de valores inconsistentes (strings, por exemplo).
+         * Recebe via parâmetro a descrição que ele vai apresentar ao usuário na solicitação do valor.
+         * Retorna um valor em double que o usuário informou.
+         */
+        private static double RecuperaDecimal(string descricao) {
+            double valor;
+
+            try {
+                WriteLine(descricao);
+                valor = Convert.ToDouble(ReadLine());
+            } catch (Exception) {
+                WriteLine("Valor inválido!");
+                valor = RecuperaDecimal(descricao);
+            }
+            return valor;
+        }
+
+        /**
+         * Método responsável por recuperar valores inteiros no console e tratar possíveis tentativas de fornecimento de valores inconsistentes (strings, por exemplo).
+         * Recebe via parâmetro a descrição que ele vai apresentar ao usuário na solicitação do valor.
+         * Retorna um valor em int que o usuário informou.
+         */
+        private static int RecuperaInteiro(string descricao) {
+            int valor;
+
+            try {
+                WriteLine(descricao);
+                valor = Convert.ToInt32(ReadLine());
+            } catch (Exception) {
+                WriteLine("Valor inválido!");
+                valor = RecuperaInteiro(descricao);
+            }
+            return valor;
+        }
+
+        /**
+         * Método responsável por recuperar valores de texto no console e tratar possíveis tentativas de fornecimento de valores inconsistentes (string em branco, nula ou espaço).
+         * Recebe via parâmetro a descrição que ele vai apresentar ao usuário na solicitação do valor.
+         * Retorna um valor em int que o usuário informou.
+         */
+        private static string RecuperaStringNaoVazia(string descricao) {
+            string informacao;
+
+            WriteLine(descricao);
+            informacao = ReadLine();
+            if (string.IsNullOrWhiteSpace(informacao)) {
+                WriteLine("Valor inválido!");
+                informacao = RecuperaStringNaoVazia(descricao);
+            }
+            return informacao;
         }
     }
 }
