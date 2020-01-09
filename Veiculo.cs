@@ -100,6 +100,10 @@ namespace Veiculo {
                 throw new Exception("O carro já encontra-se desligado.");
             }
 
+            if (Velocidade > 0) {
+                throw new Exception("Não é possível desligar o carro em movimento.");
+            }
+
             IsLigado = false;
         }
 
