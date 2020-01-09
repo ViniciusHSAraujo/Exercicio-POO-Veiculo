@@ -102,5 +102,18 @@ namespace Veiculo {
 
             IsLigado = false;
         }
+
+        public override string ToString() {
+            var estadoString = IsLigado ? "Ligado" : "Desligado";
+            return $"Marca: {Marca}\n" +
+                $"Modelo: {Modelo}\n" +
+                $"Placa: {Placa}\n" +
+                $"Cor: {Cor}\n" +
+                $"Km: {Km}\n" +
+                $"Estado: {estadoString}\n" +
+                $"Combustível Disponível: {LitrosCombustivel}\n" +
+                $"Velocidade Atual: {Velocidade}\n" +
+                $"Preço do carro: {Preco}\n";
+        }
     }
 }

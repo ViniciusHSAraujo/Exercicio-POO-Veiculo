@@ -211,20 +211,7 @@ namespace Veiculo {
         private static void VerInformacoesDoVeiculo() {
             if (veiculo != null) {
                 WriteLine("############## Informações sobre o seu veículo ##############");
-                WriteLine($"Marca: {veiculo.Marca}");
-                WriteLine($"Modelo: {veiculo.Modelo}");
-                WriteLine($"Placa: {veiculo.Placa}");
-                WriteLine($"Cor: {veiculo.Cor}");
-                WriteLine($"Km: {veiculo.Km}");
-                Write($"Estado:");
-                if (veiculo.IsLigado) {
-                    WriteLine("Ligado");
-                } else {
-                    WriteLine("Desligado");
-                }
-                WriteLine($"Combustível Disponível: {veiculo.LitrosCombustivel}");
-                WriteLine($"Velocidade Atual: {veiculo.Velocidade}");
-                WriteLine($"Preço do carro: {veiculo.Preco}");
+                WriteLine(veiculo);
 
                 ExibirMensagemDeRetornoAoMenu();
             }
